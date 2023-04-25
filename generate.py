@@ -1,13 +1,55 @@
 import random as rnd
 import pathfinding as path
 
+def epaths(x, y, side, map):
+    startpath = []
+    starttry = rnd.randint(0, x - 1)
+    flag = True
+    if side == 1:
+        run = reversed(range(0, y - 1))
+    else:
+        run = range(0, y - 1)
+    while flag:
+        print("tak", starttry, side)
+        for i in run:
+            print(startpath)
+            if map[i][starttry] == 0:
+                startpath.extend([i, starttry])
+                for k in range(0, len(startpath)):
+                    if k % 2 == 0:
+                        startpath[k] = [startpath[k], startpath[k + 1]]
+                pathcopy = startpath
+                for j in range(0, int(len(pathcopy) / 2)):
+                    if type(pathcopy[j]) is int:
+                        del startpath[j]
+                del startpath[-1]
+                print(startpath)
+                flag = False
+                break
+
+            else:
+                startpath.extend([i, starttry])
+        if flag:
+            startpath = []
+            starttry = rnd.randint(0, x - 1)
+    for i in startpath:
+        if side == 1:
+            map[i[0] + 1][i[1]] = 0
+        else:
+            map[i[0]][i[1]] = 0
+    
+    return map
+
+
+
+
 def generation(map, x, y):
     copy = []
-    for nothing in range(0, rnd.randint(3, 6)):
+    for nothing in range(0, rnd.randint(3, 5)):
         rx = rnd.randint(0, int((x / 4) * 3))
         ry = rnd.randint(0, int((y/ 4) * 3))
-        xd = rnd.randint(int(x / 4), int((x / 2)))
-        yd = rnd.randint(int(x / 4), int((y / 2)))
+        xd = rnd.randint(int(x / 4), int((x / 3)))
+        yd = rnd.randint(int(x / 4), int((y / 3)))
         middle = [0, 0]
         middle[0] = int(yd / 2) + ry
         middle[1] = int(xd / 2) + rx
@@ -20,11 +62,10 @@ def generation(map, x, y):
     pastpoint = copy[0]
     for a in copy:
         if a != copy[0]:
-            
             for el in path.simplepathfinding(pastpoint, a):
-                print(el)
                 map[el[0]][el[1]] = 0
 
-
+    map = epaths(x, y, 1, map)
+    map = epaths(x, y, 0, map)
 
     return map

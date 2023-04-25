@@ -17,6 +17,19 @@ def simplepathfinding(a, z):
         maxindex = score.index(min(score))
         a[0] = points[maxindex][0]
         a[1] = points[maxindex][1]
-        kroki.append(a)
+        #print("a: ",a)
+        kroki.extend(a)
         #print("a: ",a, "z: ", z)
+
+
+    for i in range(0, len(kroki)):
+        if i % 2 == 0:
+            kroki[i] = [kroki[i], kroki[i + 1]]
+    
+    krokicopy = kroki
+
+    for i in range(0, int((len(krokicopy) / 2) + 1)):
+        if type(krokicopy[i]) is int:
+            del kroki[i]
+
     return kroki

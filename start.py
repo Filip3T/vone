@@ -10,24 +10,22 @@ x = 15
 y = 15
 cords = [[1 for i in range(x)] for j in range(y)]
 cords = gen.generation(cords, x, y)
+print(cords)
 
-pcords = [0, 0]
+pcords = [y - 1, 0]
 
 notspawned = True
 while notspawned:
     spawntryX = rnd.randint(0, x - 1)
-    spawntryY = rnd.randint(0, y - 1)
     #print(cords[spawntryY][spawntryX])
-    if cords[spawntryY][spawntryX] == 0:
-        pcords[0] = spawntryY
+    if cords[y - 1][spawntryX] == 0:
         pcords[1] = spawntryX
         #pcords[1] = cords[spawntryX]
         notspawned = False
 
 #print(pcords)
 
-#pomoc = path.simplepathfinding([1, 1], [4, 6], cords)
-#cords[pomoc[0]][pomoc[1]] = 2
+pomoc = path.simplepathfinding([1, 1], [4, 6])
 
 moves = 20
 turn = True
