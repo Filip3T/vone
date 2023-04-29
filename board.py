@@ -15,6 +15,10 @@ def plansza(x, y, cords, moves):
                     print("│ ",colored(moves, "blue"), end=" ", sep="")
                 else:
                     print("│  ", colored(moves, "blue"), end=" ", sep="")
+            elif a == 3:
+                print("│", colored(" ██ ", "blue"), end="", sep="")
+            elif a == 4:
+                print("│", colored(" ██ ", "red"), end="", sep="")
         print("│")
         i += 1
         if i == y:

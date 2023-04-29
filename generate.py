@@ -6,14 +6,16 @@ def epaths(x, y, side, map):
     starttry = rnd.randint(0, x - 1)
     flag = True
     if side == 1:
-        run = reversed(range(0, y - 1))
+        run = list(reversed(range(0, y - 1)))
     else:
-        run = range(0, y - 1)
+        run = list(range(0, y - 1))
     while flag:
-        print("tak", starttry, side)
+        #print("tak", starttry, side)
         for i in run:
-            print(startpath)
+            #print(startpath)
             if map[i][starttry] == 0:
+                #if side == 0:
+                #    map[0][starttry] = 4
                 startpath.extend([i, starttry])
                 for k in range(0, len(startpath)):
                     if k % 2 == 0:
@@ -23,7 +25,7 @@ def epaths(x, y, side, map):
                     if type(pathcopy[j]) is int:
                         del startpath[j]
                 del startpath[-1]
-                print(startpath)
+                #print(startpath)
                 flag = False
                 break
 
@@ -32,12 +34,17 @@ def epaths(x, y, side, map):
         if flag:
             startpath = []
             starttry = rnd.randint(0, x - 1)
+
+    
     for i in startpath:
         if side == 1:
             map[i[0] + 1][i[1]] = 0
         else:
-            map[i[0]][i[1]] = 0
-    
+            if i != startpath[0]:
+                map[i[0]][i[1]] = 0
+            else:
+                map[i[0]][i[1]] = 4
+
     return map
 
 
