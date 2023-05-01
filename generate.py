@@ -52,7 +52,7 @@ def epaths(x, y, side, map):
 
 def generation(map, x, y):
     copy = []
-    for nothing in range(0, rnd.randint(3, 5)):
+    for nothing in range(0, rnd.randint(4, 6)):
         rx = rnd.randint(0, int((x / 4) * 3))
         ry = rnd.randint(0, int((y/ 4) * 3))
         xd = rnd.randint(int(x / 4), int((x / 3)))
@@ -69,7 +69,7 @@ def generation(map, x, y):
     pastpoint = copy[0]
     for a in copy:
         if a != copy[0]:
-            for el in path.simplepathfinding(pastpoint, a):
+            for el in path.simplepathfinding(pastpoint, a, map):
                 map[el[0]][el[1]] = 0
 
     map = epaths(x, y, 1, map)

@@ -5,6 +5,7 @@ import board
 import generate as gen
 import random as rnd
 import pathfinding as path
+import enemy
 
 x = 18
 y = 18
@@ -24,9 +25,7 @@ while notspawned:
         #pcords[1] = cords[spawntryX]
         notspawned = False
 
-#print(pcords)
 
-#pomoc = path.simplepathfinding([1, 1], [4, 6])
 
 moves = 80
 turn = True
@@ -45,7 +44,7 @@ def next():
     moves = 80
     rooms += 1
     x = 18
-    y = 1
+    y = 18
     cords = [[1 for i in range(x)] for j in range(y)]
     cords = gen.generation(cords, x, y)
 
@@ -60,12 +59,36 @@ def next():
             cords[y - 1][spawntryX] = 3
             #pcords[1] = cords[spawntryX]
             notspawned = False
+    
+    for i in list(range(0, rnd.randint(1, 3))):
+        if i == 1:
+            en1 = enemy.enemy("en1")
+            cords = en1.mapadd(cords, x, y)
+        elif i == 2:
+            en2 = enemy.enemy("en2")
+            cords = en2.mapadd(cords, x, y)
+        else:
+            en3 = enemy.enemy("en3")
+            cords = en3.mapadd(cords, x, y)
 
+help = cords[0].index(4)
+punkt1 = [0, help]
+punkt2 = pcords
+notspawned = True
+
+board.plansza(x, y, cords, moves)
+
+check = path.complexpathfinding(tuple(punkt1), tuple(punkt2), cords)
+print(check)
+for i in check:
+    cords[i[0]][i[1]] = 3
 
 
 #print(cords)
 
 board.plansza(x, y, cords, moves)
+
+#path.complexpathfinding([0,0], [2, 2], cords)
 
 def on_key_release(Key):
     global moves
@@ -73,6 +96,7 @@ def on_key_release(Key):
     global left
     if moves < 0:
         turn = False
+
         print("brak")
     else:
         if Key == Key.right:
