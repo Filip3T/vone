@@ -1,5 +1,4 @@
 import numpy as num
-from collections import defaultdict
 from heapq import heappush, heappop
 
 def neighboring(a, cords, complex):
@@ -9,7 +8,7 @@ def neighboring(a, cords, complex):
         y =a[1] + j
         if 0 <= x < len(cords) and 0 <= y < len(cords[0]):
             if complex:
-                if cords[x][y] != 1:
+                if cords[x][y] != 1 and cords[x][y] != 5:
                     lista.append((x, y))
             else:
                 lista.append((x, y))
