@@ -1,7 +1,10 @@
 from termcolor import colored
 
-def plansza(x, y, cords, moves, en1, en2, en3):
+def plansza(x, y, cords, moves, en1, en2, en3, player):
     i = 0
+
+    print(colored("Room: ", "red"), colored(player.rooms, "red"))
+
     print("┌────", (x - 1) * "┬────", "┐", sep="")
     for row in cords:
         for a in row: 
@@ -42,3 +45,6 @@ def plansza(x, y, cords, moves, en1, en2, en3):
             print("└────", (x - 1) * "┴────", "┘", sep="")
         else:
             print("├────", (x - 1) * "┼────", "┤", sep="")
+    
+  
+    print(colored("HP: ", "green"), colored(player.hp, "green"), colored(" / ", "green"), colored(player.maxhp, "green"))

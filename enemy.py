@@ -4,6 +4,7 @@ import numpy as num
 import board
 import time
 import os
+import fight as fgt
 
 
 class enemy:
@@ -35,7 +36,7 @@ class enemy:
         return cords
 
 
-    def tura(self, cords, pcords, x, y, moves, en1, en2, en3):
+    def tura(self, cords, pcords, x, y, moves, en1, en2, en3, player):
         aggressive = int(num.sqrt((self.px - pcords[1])**2 + (self.py - pcords[0])**2)) <= 4
         print(aggressive)
         if aggressive:
@@ -69,6 +70,11 @@ class enemy:
         left = 0
         for i in range(1, self.moves + 1):
             cords[self.py][self.px] = left
+            print(go)
+            if cords[go[i][0]][go[i][1]] == 2:
+                time.sleep(1) # dla dramatycznego efektu XD
+                fgt.fight()
+                break
             left = cords[go[i][0]][go[i][1]]
             self.py = go[i][0]
             self.px = go[i][1]
@@ -86,6 +92,6 @@ class enemy:
             #cords[go[i][0]][go[i][1]] = 5
             time.sleep(1)
             os.system('cls')
-            board.plansza(x, y, cords, moves, en1, en2, en3)
+            board.plansza(x, y, cords, moves, en1, en2, en3, player)
         self.moves = 4
         

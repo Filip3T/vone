@@ -1,0 +1,2 @@
+def fight():
+    print("walka")
