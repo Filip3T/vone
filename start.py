@@ -7,6 +7,8 @@ import random as rnd
 import pathfinding as path
 import enemy
 import player as ply
+import fight as fgt
+
 
 x = rnd.randint(15, 18)
 y = rnd.randint(18, 24)
@@ -101,90 +103,99 @@ notspawned = True
 
 board.plansza(x, y, cords, moves, en1, en2, en3, player)
 
-#path.complexpathfinding([0,0], [2, 2], cords)
 
 def on_key_release(Key):
     global moves
     global turn
     global left
     global en1
-    global en2
+    global en2  
     global en3
+    if player.state == 0:
     #global pcords
-    if moves == 0:
+        if moves == 0:
         
-        en1.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
-        
-        en2.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
-        
-        en3.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
-        moves += 8
-        os.system('cls')
-        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+            e1 = en1.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
+            if e1 == "fight":
+                return None
+            e2 = en2.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
+            if e2 == "fight":
+                return None
+            e3 = en3.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
+            if e3 == "fight":
+                return None
+            en1.moves = 4
+            en2.moves = 4
+            en3.moves = 4
+            moves += 8
+            os.system('cls')
+            board.plansza(x, y, cords, moves, en1, en2, en3, player)
 
 
+        else:
+            if Key == Key.right:
+                cords[player.pcords[0]][player.pcords[1]] = left
+                if player.pcords[1] + 1 >= x or cords[player.pcords[0]][player.pcords[1] + 1 ] == 1:
+                    print("nope")
+                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 4:
+                    next()
+                    os.system('cls')
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                else:
+                    left = cords[player.pcords[0]][player.pcords[1] + 1]
+                    player.pcords[1] += 1
+                    cords[player.pcords[0]][player.pcords[1]] = 2
+                    os.system('cls')
+                    moves -= 1
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+            elif Key == Key.left:
+                cords[player.pcords[0]][player.pcords[1]] = left
+                if player.pcords[1] - 1 < 0 or cords[player.pcords[0]][player.pcords[1] - 1 ] == 1:
+                    print("nope")
+                elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 4:
+                    next()
+                    os.system('cls')
+                    board.plansza(x, y, cords, moves, en1, en2 ,en3, player)
+                else:
+                    left = cords[player.pcords[0]][player.pcords[1] - 1]
+                    player.pcords[1] -= 1
+                    cords[player.pcords[0]][player.pcords[1]] = 2
+                    os.system('cls')
+                    moves -= 1
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+            elif Key == Key.up:
+                cords[player.pcords[0]][player.pcords[1]] = left
+                if player.pcords[0] - 1 < 0 or cords[player.pcords[0] - 1][player.pcords[1]] == 1:
+                    print("nope")
+                elif cords[player.pcords[0] - 1][player.pcords[1]] == 4:
+                    next()
+                    os.system('cls')
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                else:
+                    left = cords[player.pcords[0] - 1][player.pcords[1]]
+                    player.pcords[0] -= 1
+                    cords[player.pcords[0]][player.pcords[1]] = 2
+                    os.system('cls')
+                    moves -= 1
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+            elif Key == Key.down:
+                cords[player.pcords[0]][player.pcords[1]] = left
+                if player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
+                    print("nope")
+                elif cords[player.pcords[0] + 1][player.pcords[1]] == 4:
+                    next()
+                    os.system('cls')
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                else:
+                    left = cords[player.pcords[0] + 1][player.pcords[1]]
+                    player.pcords[0] += 1
+                    cords[player.pcords[0]][player.pcords[1]] = 2
+                    os.system('cls')
+                    moves -= 1
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
     else:
-        if Key == Key.right:
-            cords[player.pcords[0]][player.pcords[1]] = left
-            if player.pcords[1] + 1 >= x or cords[player.pcords[0]][player.pcords[1] + 1 ] == 1:
-                print("nope")
-            elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 4:
-                next()
-                os.system('cls')
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            else:
-                left = cords[player.pcords[0]][player.pcords[1] + 1]
-                player.pcords[1] += 1
-                cords[player.pcords[0]][player.pcords[1]] = 2
-                os.system('cls')
-                moves -= 1
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-        elif Key == Key.left:
-            cords[player.pcords[0]][player.pcords[1]] = left
-            if player.pcords[1] - 1 < 0 or cords[player.pcords[0]][player.pcords[1] - 1 ] == 1:
-                print("nope")
-            elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 4:
-                next()
-                os.system('cls')
-                board.plansza(x, y, cords, moves, en1, en2 ,en3, player)
-            else:
-                left = cords[player.pcords[0]][player.pcords[1] - 1]
-                player.pcords[1] -= 1
-                cords[player.pcords[0]][player.pcords[1]] = 2
-                os.system('cls')
-                moves -= 1
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-        elif Key == Key.up:
-            cords[player.pcords[0]][player.pcords[1]] = left
-            if player.pcords[0] - 1 < 0 or cords[player.pcords[0] - 1][player.pcords[1]] == 1:
-                 print("nope")
-            elif cords[player.pcords[0] - 1][player.pcords[1]] == 4:
-                next()
-                os.system('cls')
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            else:
-                left = cords[player.pcords[0] - 1][player.pcords[1]]
-                player.pcords[0] -= 1
-                cords[player.pcords[0]][player.pcords[1]] = 2
-                os.system('cls')
-                moves -= 1
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-        elif Key == Key.down:
-            cords[player.pcords[0]][player.pcords[1]] = left
-            if player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
-                print("nope")
-            elif cords[player.pcords[0] + 1][player.pcords[1]] == 4:
-                next()
-                os.system('cls')
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            else:
-                left = cords[player.pcords[0] + 1][player.pcords[1]]
-                player.pcords[0] += 1
-                cords[player.pcords[0]][player.pcords[1]] = 2
-                os.system('cls')
-                moves -= 1
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            
+        fgt.fightupdate(player, Key)
+   
 
 with keyboard.Listener(on_release=on_key_release) as listener:
     listener.join()

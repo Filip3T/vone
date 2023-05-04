@@ -73,8 +73,9 @@ class enemy:
             print(go)
             if cords[go[i][0]][go[i][1]] == 2:
                 time.sleep(1) # dla dramatycznego efektu XD
-                fgt.fight()
-                break
+                os.system('cls')
+                fgt.fight(player)
+                return "fight"
             left = cords[go[i][0]][go[i][1]]
             self.py = go[i][0]
             self.px = go[i][1]
@@ -93,5 +94,5 @@ class enemy:
             time.sleep(1)
             os.system('cls')
             board.plansza(x, y, cords, moves, en1, en2, en3, player)
-        self.moves = 4
+        
         

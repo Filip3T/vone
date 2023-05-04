@@ -5,6 +5,9 @@ class player:
     maxhp = 100
     rooms = 1
     lv = 1
+    exp = 0
+    lvlup = 100
+    state = 0
     pcords = [0, 0]
 
     def spawn(self, x, y, cords):
