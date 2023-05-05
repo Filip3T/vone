@@ -19,20 +19,6 @@ cords = gen.generation(cords, x, y)
 player = ply.player()
 player.spawn(x, y, cords)
 
-#pcords = [y - 1, 0]
-"""
-notspawned = True
-while notspawned:
-    spawntryX = rnd.randint(0, x - 1)
-    # print(cords[spawntryY][spawntryX])
-    if cords[y - 1][spawntryX] == 0:
-        pcords[1] = spawntryX
-        cords[y - 1][spawntryX] = 3
-        #pcords[1] = cords[spawntryX]
-        notspawned = False
-"""
-
-
 moves = 8
 turn = True
 left = 3
@@ -43,7 +29,7 @@ en2 = enemy.enemy("en2", 0)
 cords = en2.mapadd(cords, x, y)
 en3 = enemy.enemy("en3", 0)
 cords = en3.mapadd(cords, x, y)
-
+ 
 def next():
     #global rooms
     global x
@@ -65,17 +51,6 @@ def next():
 
     #pcords = [y - 1, 0]
     player.spawn(x, y, cords)
-    """
-    notspawned = True
-    while notspawned:
-        spawntryX = rnd.randint(0, x - 1)
-        #print(cords[spawntryY][spawntryX])
-        if cords[y - 1][spawntryX] == 0:
-            pcords[1] = spawntryX
-            cords[y - 1][spawntryX] = 3
-            #pcords[1] = cords[spawntryX]
-            notspawned = False
-    """
 
     en1 = enemy.enemy("en1", 0)
     cords = en1.mapadd(cords, x, y)
@@ -90,53 +65,71 @@ help = cords[0].index(4)
 punkt1 = [0, help]
 punkt2 = player.pcords
 notspawned = True
-
+ 
 #board.plansza(x, y, cords, moves)
 
-#check = path.complexpathfinding(tuple(punkt1), tuple(punkt2), cords)
+#check = path.co  mplexpathfinding(tuple(punkt1), tuple(punkt2), cords)
 #print(check)
 #for i in check:
 #    cords[i[0]][i[1]] = 3
 
 
-#print(cords)
+#print(co rds)
 
 board.plansza(x, y, cords, moves, en1, en2, en3, player)
 
+frop = 0
 
-def on_key_release(Key):
+def  on_key_release(Key):
     global moves
     global turn
     global left
     global en1
     global en2  
     global en3
+    global frop
     if player.state == 0:
-    #global pcords
         if moves == 0:
-        
-            e1 = en1.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
-            if e1 == "fight":
-                return None
-            e2 = en2.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
-            if e2 == "fight":
-                return None
-            e3 = en3.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
-            if e3 == "fight":
-                return None
-            en1.moves = 4
-            en2.moves = 4
-            en3.moves = 4
+            if en1 != None:
+                e1 = en1.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
+                if e1 == "fight":
+                    frop = en1
+                    return None
+            if en2 != None:
+                e2 = en2.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
+                if e2 == "fight":
+                    frop = en2
+                    return None
+            if en3 != None:
+                e3 = en3.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
+                if e3 == "fight":
+                    frop = en3
+                    return None
+            if en1 != None:    
+                en1.moves = 4
+            if en2 != None:
+                en2.moves = 4
+            if en3 != None:    
+                en3.moves = 4
             moves += 8
             os.system('cls')
             board.plansza(x, y, cords, moves, en1, en2, en3, player)
-
+ 
 
         else:
-            if Key == Key.right:
+            if  Key == Key.right:
                 cords[player.pcords[0]][player.pcords[1]] = left
                 if player.pcords[1] + 1 >= x or cords[player.pcords[0]][player.pcords[1] + 1 ] == 1:
                     print("nope")
+                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 5:
+                    frop = en1
+                    fgt.fight(player)
+                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 6:
+                    frop = en2
+                    fgt.fight(player)
+                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 7:
+                    frop = en3
+                    fgt.fight(player)
                 elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 4:
                     next()
                     os.system('cls')
@@ -152,22 +145,40 @@ def on_key_release(Key):
                 cords[player.pcords[0]][player.pcords[1]] = left
                 if player.pcords[1] - 1 < 0 or cords[player.pcords[0]][player.pcords[1] - 1 ] == 1:
                     print("nope")
+                elif cords [player.pcords[0]][player.pcords[1] - 1 ] == 5:
+                    frop = en1
+                    fgt.fight(player)
+                elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 6:
+                    frop = en2
+                    fgt.fight(player)
+                elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 7:
+                    frop = en3
+                    fgt.fight(player)
                 elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 4:
-                    next()
+                    next( )
                     os.system('cls')
                     board.plansza(x, y, cords, moves, en1, en2 ,en3, player)
                 else:
-                    left = cords[player.pcords[0]][player.pcords[1] - 1]
+                    left = cords[ player.pcords[0]][player.pcords[1] - 1]
                     player.pcords[1] -= 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
                     os.system('cls')
                     moves -= 1
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            elif Key == Key.up:
+            elif Key == Key.up   :
                 cords[player.pcords[0]][player.pcords[1]] = left
                 if player.pcords[0] - 1 < 0 or cords[player.pcords[0] - 1][player.pcords[1]] == 1:
                     print("nope")
-                elif cords[player.pcords[0] - 1][player.pcords[1]] == 4:
+                elif cords[player.pcords[0] - 1][player.pcords[1]] == 5:
+                    frop = en1
+                    fgt.fight(player)
+                elif cords[player.pcords[0] - 1][player.pcords[1]] == 6:
+                    frop = en2
+                    fgt.fight(player)
+                elif cords[player.pcords[0] - 1][player.pcords[1]] == 7:
+                    frop = en3
+                    fgt.fight(player)
+                elif  cords[player.pcords[0] - 1][player.pcords[1]] == 4:
                     next()
                     os.system('cls')
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
@@ -180,8 +191,17 @@ def on_key_release(Key):
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
             elif Key == Key.down:
                 cords[player.pcords[0]][player.pcords[1]] = left
-                if player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
+                if  player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
                     print("nope")
+                elif cords[player.pcords[0] + 1][player.pcords[1]] == 5:
+                    frop = en1
+                    fgt.fight(player)
+                elif cords[player.pcords[0] + 1][player.pcords[1]] == 6:
+                    frop = en2
+                    fgt.fight(player)
+                elif cords[player.pcords[0] + 1][player.pcords[1]] == 7:
+                    frop = en3
+                    fgt.fight(player)
                 elif cords[player.pcords[0] + 1][player.pcords[1]] == 4:
                     next()
                     os.system('cls')
@@ -194,9 +214,38 @@ def on_key_release(Key):
                     moves -= 1
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
     else:
-        fgt.fightupdate(player, Key)
-   
-
+        fgt.fightupdate(player, frop, cords, Key)
+          
+ 
 with keyboard.Listener(on_release=on_key_release) as listener:
-    listener.join()
+     listener.join()
 
+"""
+
+
+
+
+   
+  
+  
+  
+   
+  
+         
+      
+      
+    
+  
+
+
+
+    
+  
+
+  
+z
+  
+      
+    
+ 
+"""

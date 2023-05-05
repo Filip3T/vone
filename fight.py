@@ -1,6 +1,7 @@
 import os
 import random as rnd
 import board
+from pynput import keyboard
 
 class enemies:
 
@@ -11,13 +12,19 @@ class enemies:
 
     elements = {
         0: "physical",
-        1: "air",
+        1: "bow",
         2: "fire",
         3: "water",
         4: "wind",
         5: "thunder",
-        6: "magic",
-        7: "night",
+        6: "dark",
+        7: "light",
+    }
+
+    weaknesses = {
+        0: "weak",
+        1: "nrml",
+        2: "strg"
     }
 
     enemy1 = 0
@@ -44,7 +51,7 @@ class enemies:
                 if j == 1:
                     self.hp1 = 120
                     self.maxhp1 = 120
-                    self.rect1 = [1, 0, 2, 0, 0, 2, 1, 1, 0]
+                    self.rec1 = [1, 0, 2, 0, 0, 2, 1, 1, 0]
 
             if i == 1:
                 j = rnd.randint(1, 1)
@@ -52,7 +59,7 @@ class enemies:
                 if j == 1:
                     self.hp2 = 120
                     self.maxhp2 = 120
-                    self.rect2 = [1, 0, 2, 0, 0, 2, 1, 1, 0]
+                    self.rec2 = [1, 0, 2, 0, 0, 2, 1, 1, 0]
 
             if i == 2:
                 j = rnd.randint(1, 1)
@@ -60,7 +67,7 @@ class enemies:
                 if j == 1:
                     self.hp3 = 120
                     self.maxhp3 = 120
-                    self.rect3 = [1, 0, 2, 0, 0, 2, 1, 1, 1]
+                    self.rec3 = [1, 0, 2, 0, 0, 2, 1, 1, 1]
 
 enemy = 0
 cursor = 0
@@ -69,29 +76,122 @@ def fight(player):
     global enemy
     enemy = enemies()
     player.state = 1
+    os.system('cls')
     board.battleUI(player, enemy, 0)
     
-def fightupdate(player, Key):
+
+def fightupdate(player, prop, cords, Key):
     global cursor
     global enemy
-    if Key == Key.up:
-        if cursor == 3 and enemy.enemy3 == 0:
-            if cursor == 3 and enemy.enemy2 == 0:
-                cursor = 0
-            else:
-                cursor = 1
-        else:
-            if cursor != 0:
+    if Key == keyboard.Key.up:
+        if player.state == 1:
+            if cursor == 3 and enemy.enemy3 == 0:
                 cursor -= 1
-    elif Key == Key.down:
-        if enemy.enemy1 == 1 and enemy.enemy2 == 0 and cursor == 0:
-            cursor = 3
-        elif enemy.enemy2 == 1 and enemy.enemy3 == 0 and cursor == 1:
-            cursor = 3
-        else:
-            if cursor != 6:
+            if cursor == 2 and enemy.enemy2 == 0:
+                cursor -= 1
+            if cursor == 1 and enemy.enemy1 == 0:
+                cursor += 2
+            else:
+                if cursor != 0:
+                    cursor -= 1
+        elif player.state == 3:
+            if cursor == 2 and enemy.enemy2 == 0:
+                cursor -= 2
+            else:
+                if cursor != 0:
+                    cursor -= 1
+    elif Key == keyboard.Key.down:
+        if player.state == 1:
+            if cursor == 0 and enemy.enemy2 == 0:
                 cursor += 1
-    if Key == Key.space:
-        print(":D")
-    #os.system('cls')
+            if cursor == 1 and enemy.enemy3 == 0:
+                cursor = 3
+            else:
+                if cursor != 6:
+                    cursor += 1
+        elif player.state == 3:
+            if cursor == 0 and enemy.enemy2 == 0:
+                cursor += 1
+                if enemy.enemy3 == 0:
+                    cursor = 0
+                else:
+                    cursor +=1
+            elif cursor == 1 and enemy.enemy3 == 0:
+                None
+            else:
+                cursor += 1 
+
+    elif Key == keyboard.Key.space:
+        if player.state == 1:
+            if cursor < 3:
+                player.state = 2
+            if cursor == 3:
+                if enemy.enemy1 != 0:
+                    cursor = 0
+                elif enemy.enemy2 != 0:
+                    cursor = 1
+                if enemy.enemy3 != 0:
+                    cursor = 2
+                player.state = 3
+        elif player.state == 3:
+            if cursor == 0:
+                if enemy.rec1[0] == 0:
+                    enemy.hp1 -= 40
+                elif enemy.rec1[0] == 1:
+                    enemy.hp1 -= 30
+                elif enemy.rec1[0] == 2:
+                    enemy.hp1 -= 15
+                if enemy.hp1 <= 0:
+                    enemy.enemy1 = 0
+                    cursor = 3
+                    if enemy.enemy3 == 0 and enemy.enemy2 == 0:
+                        print("win")
+                        player.state = 0
+                        prop.death(cords)
+                    else:
+                        player.state = 1
+                else:
+                        player.state = 1
+            elif cursor == 1:
+                if enemy.rec2[0] == 0:
+                    enemy.hp2 -= 40
+                elif enemy.rec2[0] == 1:
+                    enemy.hp2 -= 30
+                elif enemy.rec2[0] == 2:
+                    enemy.hp2 -= 15
+                if enemy.hp2 <= 0:
+                    enemy.enemy2 = 0
+                    cursor = 3
+                    if enemy.enemy1 == 0 and enemy.enemy3 == 0:
+                        print("win")
+                        player.state = 0
+                        prop.death(cords)
+                    else:
+                        player.state = 1
+                else:
+                        player.state = 1
+            elif cursor == 2:
+                if enemy.rec3[0] == 0:
+                    enemy.hp3 -= 40
+                elif enemy.rec3[0] == 1:
+                    enemy.hp3 -= 30
+                elif enemy.rec3[0] == 2:
+                    enemy.hp3 -= 15
+                if enemy.hp3 <= 0:
+                    enemy.enemy3 = 0
+                    cursor = 3
+                    if enemy.enemy1 == 0 and enemy.enemy2 == 0:
+                        print("win")
+                        player.state = 0
+                        prop.death(cords)
+                    else:
+                        player.state = 1
+                else:
+                        player.state = 1
+                
+        #print("C")
+    elif Key == keyboard.Key.ctrl_l:
+        player.state = 1
+
+    os.system('cls')
     board.battleUI(player, enemy, cursor)
