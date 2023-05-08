@@ -39,6 +39,8 @@ def plansza(x, y, cords, moves, en1, en2, en3, player):
                 else:
                     print("│  ", colored(en3.moves, "red"), end=" ", sep="")
                 #print("│", colored(" 11 ", "red"), end="", sep="")
+            elif a == 8:
+                print("│", colored(" △△ ", "yellow"), end="", sep="")
             
         print("│")
         i += 1
@@ -142,3 +144,22 @@ def battleUI(player, enemy, cursor):
                 colored(enemy.hp3, "red"), colored("/", "red"), colored(enemy.maxhp3, "red"))
             else:
                 print("3: ", enemy.name[enemy.enemy3], ": ", enemy.hp3, "/", enemy.maxhp3)
+    
+
+def inv(player):
+    for i in player.inventory:
+        if player.item_types[i] == 0 or player.item_types[i] == 1:
+            print(colored(player.items[i], "grey"))
+        if player.item_types[i] == 2:
+            print(colored(player.items[i], "red"))
+        if player.item_types[i] == 3:
+            print(colored(player.items[i], "light_blue"))
+        if player.item_types[i] == 4:
+            print(colored(player.items[i], "green"))
+        if player.item_types[i] == 5:
+            print(colored(player.items[i], "yellow"))
+        if player.item_types[i] == 6:
+            print(colored(player.items[i], "magenta"))
+        if player.item_types[i] == 7:
+            print(colored(player.items[i], "white"))
+         

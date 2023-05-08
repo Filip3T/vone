@@ -75,4 +75,15 @@ def generation(map, x, y):
     map = epaths(x, y, 1, map)
     map = epaths(x, y, 0, map)
 
+    trs = int(rnd.random() * 100) % 4 
+
+    if trs == 1:
+        flag = True
+        while flag:
+            trsxtry = rnd.randint(0, x - 1)
+            trsytry = rnd.randint(0, y - 1)
+            if map[trsytry][trsxtry] == 0:
+                map[trsytry][trsxtry] = 8
+                flag = False
+
     return map

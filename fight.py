@@ -10,16 +10,6 @@ class enemies:
         1: "phoenix"
     }
 
-    elements = {
-        0: "physical",
-        1: "bow",
-        2: "fire",
-        3: "water",
-        4: "wind",
-        5: "thunder",
-        6: "dark",
-        7: "light",
-    }
 
     weaknesses = {
         0: "weak",
@@ -81,8 +71,7 @@ def fight(player):
     
 
 def fightupdate(player, prop, cords, Key):
-    global cursor
-    global enemy
+    global cursor, enemy
     if Key == keyboard.Key.up:
         if player.state == 1:
             if cursor == 3 and enemy.enemy3 == 0:
@@ -118,6 +107,8 @@ def fightupdate(player, prop, cords, Key):
                     cursor +=1
             elif cursor == 1 and enemy.enemy3 == 0:
                 None
+            elif cursor == 2:
+                None
             else:
                 cursor += 1 
 
@@ -145,9 +136,10 @@ def fightupdate(player, prop, cords, Key):
                     enemy.enemy1 = 0
                     cursor = 3
                     if enemy.enemy3 == 0 and enemy.enemy2 == 0:
-                        print("win")
+                        #win
                         player.state = 0
                         prop.death(cords)
+                        print("Wygrna")
                     else:
                         player.state = 1
                 else:
@@ -163,9 +155,10 @@ def fightupdate(player, prop, cords, Key):
                     enemy.enemy2 = 0
                     cursor = 3
                     if enemy.enemy1 == 0 and enemy.enemy3 == 0:
-                        print("win")
+                        #win
                         player.state = 0
                         prop.death(cords)
+                        print("Wygrna")
                     else:
                         player.state = 1
                 else:
@@ -181,9 +174,10 @@ def fightupdate(player, prop, cords, Key):
                     enemy.enemy3 = 0
                     cursor = 3
                     if enemy.enemy1 == 0 and enemy.enemy2 == 0:
-                        print("win")
+                        #win
                         player.state = 0
                         prop.death(cords)
+                        print("Wygrna")
                     else:
                         player.state = 1
                 else:
@@ -193,5 +187,6 @@ def fightupdate(player, prop, cords, Key):
     elif Key == keyboard.Key.ctrl_l:
         player.state = 1
 
-    os.system('cls')
-    board.battleUI(player, enemy, cursor)
+    if player.state != 0:
+        os.system('cls')
+        board.battleUI(player, enemy, cursor)

@@ -32,15 +32,8 @@ cords = en3.mapadd(cords, x, y)
  
 def next():
     #global rooms
-    global x
-    global y
-    global cords
-    #global pcords
-    global moves
-    global left
-    global en1
-    global en2
-    global en3
+    global x, y, cords, moves, left, en1, en2, en3
+
     left = 3
     moves = 8
     player.rooms += 1
@@ -81,14 +74,8 @@ board.plansza(x, y, cords, moves, en1, en2, en3, player)
 frop = 0
 
 def  on_key_release(Key):
-    global moves
-    global turn
-    global left
-    global en1
-    global en2  
-    global en3
-    global frop
-    if player.state == 0:
+    global moves, turn, left, en1, en2, en3, frop
+    if player.state == 0 or player.state == 4 :
         if moves == 0:
             if en1 != None:
                 e1 = en1.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
@@ -135,6 +122,8 @@ def  on_key_release(Key):
                     os.system('cls')
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
                 else:
+                    if cords[player.pcords[0]][player.pcords[1] + 1] == 8:
+                        player.itemfound()
                     left = cords[player.pcords[0]][player.pcords[1] + 1]
                     player.pcords[1] += 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
@@ -159,6 +148,8 @@ def  on_key_release(Key):
                     os.system('cls')
                     board.plansza(x, y, cords, moves, en1, en2 ,en3, player)
                 else:
+                    if cords[player.pcords[0]][player.pcords[1] - 1 ] == 8:
+                        player.itemfound()
                     left = cords[ player.pcords[0]][player.pcords[1] - 1]
                     player.pcords[1] -= 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
@@ -183,6 +174,8 @@ def  on_key_release(Key):
                     os.system('cls')
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
                 else:
+                    if cords[player.pcords[0] - 1][player.pcords[1]] == 8:
+                        player.itemfound()
                     left = cords[player.pcords[0] - 1][player.pcords[1]]
                     player.pcords[0] -= 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
@@ -206,13 +199,25 @@ def  on_key_release(Key):
                     next()
                     os.system('cls')
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                    
                 else:
+                    if cords[player.pcords[0] + 1][player.pcords[1]] == 8:
+                        player.itemfound()
                     left = cords[player.pcords[0] + 1][player.pcords[1]]
                     player.pcords[0] += 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
                     os.system('cls')
                     moves -= 1
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
+            elif Key == Key.space:
+                player.state = 4
+                os.system('cls')
+                board.inv(player)
+            elif Key == keyboard.Key.ctrl_l:
+                player.state = 0
+                os.system('cls')
+                board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                
     else:
         fgt.fightupdate(player, frop, cords, Key)
           
