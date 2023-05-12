@@ -70,12 +70,17 @@ notspawned = True
 #print(co rds)
 
 board.plansza(x, y, cords, moves, en1, en2, en3, player)
-
+    
 frop = 0
+cursor = 0
+types = 0
+eq = 0  
+selected = -1
+list_types = []
 
 def  on_key_release(Key):
-    global moves, turn, left, en1, en2, en3, frop
-    if player.state == 0 or player.state == 4 :
+    global eq, types, moves, turn, left, en1, en2, en3, frop, cursor, selected, list_types
+    if player.state in [0, 4, 6, 7, 8]:
         if moves == 0:
             if en1 != None:
                 e1 = en1.tura(cords, player.pcords, x, y, moves, en1, en2, en3, player)
@@ -104,7 +109,7 @@ def  on_key_release(Key):
  
 
         else:
-            if  Key == Key.right:
+            if Key == Key.right:
                 cords[player.pcords[0]][player.pcords[1]] = left
                 if player.pcords[1] + 1 >= x or cords[player.pcords[0]][player.pcords[1] + 1 ] == 1:
                     print("nope")
@@ -124,6 +129,7 @@ def  on_key_release(Key):
                 else:
                     if cords[player.pcords[0]][player.pcords[1] + 1] == 8:
                         player.itemfound()
+                        cords[player.pcords[0]][player.pcords[1] + 1] = 0
                     left = cords[player.pcords[0]][player.pcords[1] + 1]
                     player.pcords[1] += 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
@@ -150,107 +156,165 @@ def  on_key_release(Key):
                 else:
                     if cords[player.pcords[0]][player.pcords[1] - 1 ] == 8:
                         player.itemfound()
+                        cords[player.pcords[0]][player.pcords[1] - 1 ] = 0
                     left = cords[ player.pcords[0]][player.pcords[1] - 1]
                     player.pcords[1] -= 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
                     os.system('cls')
                     moves -= 1
                     board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            elif Key == Key.up   :
-                cords[player.pcords[0]][player.pcords[1]] = left
-                if player.pcords[0] - 1 < 0 or cords[player.pcords[0] - 1][player.pcords[1]] == 1:
-                    print("nope")
-                elif cords[player.pcords[0] - 1][player.pcords[1]] == 5:
-                    frop = en1
-                    fgt.fight(player)
-                elif cords[player.pcords[0] - 1][player.pcords[1]] == 6:
-                    frop = en2
-                    fgt.fight(player)
-                elif cords[player.pcords[0] - 1][player.pcords[1]] == 7:
-                    frop = en3
-                    fgt.fight(player)
-                elif  cords[player.pcords[0] - 1][player.pcords[1]] == 4:
-                    next()
+            elif Key == Key.up:
+                if player.state == 0:
+                    cords[player.pcords[0]][player.pcords[1]] = left
+                    if player.pcords[0] - 1 < 0 or cords[player.pcords[0] - 1][player.pcords[1]] == 1:
+                        print("nope")
+                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 5:
+                        frop = en1
+                        fgt.fight(player)
+                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 6:
+                        frop = en2
+                        fgt.fight(player)
+                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 7:
+                        frop = en3
+                        fgt.fight(player)
+                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 4:
+                        next()
+                        os.system('cls')
+                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                    else:
+                        if cords[player.pcords[0] - 1][player.pcords[1]] == 8:
+                            player.itemfound()
+                            cords[player.pcords[0] - 1][player.pcords[1]] = 0
+                        left = cords[player.pcords[0] - 1][player.pcords[1]]
+                        player.pcords[0] -= 1
+                        cords[player.pcords[0]][player.pcords[1]] = 2
+                        os.system('cls')
+                        moves -= 1
+                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                elif player.state == 4:
+                    cursor = 0 
                     os.system('cls')
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
-                else:
-                    if cords[player.pcords[0] - 1][player.pcords[1]] == 8:
-                        player.itemfound()
-                    left = cords[player.pcords[0] - 1][player.pcords[1]]
-                    player.pcords[0] -= 1
-                    cords[player.pcords[0]][player.pcords[1]] = 2
+                    board.menu(cursor) 
+                elif player.state == 6:
+                    if cursor != 0:
+                        cursor -= 1
+                        os.system('cls')
+                        board.menueq(player, cursor)
+                elif player.state == 8:
+                    if cursor != 0:  
+                        cursor -= 1
+                        selected = list_types[cursor]
+                        os.system('cls')
+                        board.equ(player, cursor, types)
+            elif Key == Key.down: 
+                if player.state == 0:
+                    cords[player.pcords[0]][player.pcords[1]] = left
+                    if  player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
+                        print("nope")
+                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 5:
+                        frop = en1
+                        fgt.fight(player)
+                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 6:
+                        frop = en2
+                        fgt.fight(player)
+                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 7:
+                        frop = en3
+                        fgt.fight(player)
+                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 4:
+                        next()
+                        os.system('cls')
+                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                    else:
+                        if cords[player.pcords[0] + 1][player.pcords[1]] == 8:
+                            player.itemfound()
+                            cords[player.pcords[0] + 1][player.pcords[1]] = 0
+                        left = cords[player.pcords[0] + 1][player.pcords[1]]
+                        player.pcords[0] += 1
+                        cords[player.pcords[0]][player.pcords[1]] = 2
+                        os.system('cls')
+                        moves -= 1
+                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                elif player.state == 4:
+                    cursor = 1
                     os.system('cls')
-                    moves -= 1
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
-            elif Key == Key.down:
-                cords[player.pcords[0]][player.pcords[1]] = left
-                if  player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
-                    print("nope")
-                elif cords[player.pcords[0] + 1][player.pcords[1]] == 5:
-                    frop = en1
-                    fgt.fight(player)
-                elif cords[player.pcords[0] + 1][player.pcords[1]] == 6:
-                    frop = en2
-                    fgt.fight(player)
-                elif cords[player.pcords[0] + 1][player.pcords[1]] == 7:
-                    frop = en3
-                    fgt.fight(player)
-                elif cords[player.pcords[0] + 1][player.pcords[1]] == 4:
-                    next()
-                    os.system('cls')
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
-                    
-                else:
-                    if cords[player.pcords[0] + 1][player.pcords[1]] == 8:
-                        player.itemfound()
-                    left = cords[player.pcords[0] + 1][player.pcords[1]]
-                    player.pcords[0] += 1
-                    cords[player.pcords[0]][player.pcords[1]] = 2
-                    os.system('cls')
-                    moves -= 1
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                    board.menu(cursor)
+                elif player.state == 6:
+                    if cursor != 2:
+                        cursor += 1
+                        os.system('cls')
+                        board.menueq(player, cursor)
+                elif player.state ==    8:
+                    if cursor != len(list_types) - 1:
+                        cursor += 1
+                        selected = list_types[cursor]
+                        os.system('cls')
+                        board.equ(player, cursor, types)
             elif Key == Key.space:
-                player.state = 4
-                os.system('cls')
-                board.inv(player)
+                if player.state == 0:
+                    player.state = 4
+                    cursor = 0
+                    os.system('cls')
+                    board.menu(cursor)
+                elif player.state == 4:
+                    if cursor == 0:
+                        player.state = 6
+                        os.system('cls')
+                        board.menueq(player, cursor)
+                    elif cursor == 1:
+                        player.state = 7
+                        os.system('cls')
+                        board.inv(player)
+                elif player.state == 6:
+                    player.state = 8
+                    if cursor == 0 or cursor == 1:
+                        os.system('cls')
+                        types = 0
+                        list_types = []
+                        for i in player.inventory:
+                            if player.item_types[i] == types:
+                                list_types.append(i) 
+                        eq = cursor
+                        selected = list_types[0]
+                        cursor = 0
+                        board.equ(player, cursor, types)
+                    elif cursor == 2:
+                        os.system('cls')
+                        types = 1
+                        list_types = []
+                        for i in player.inventory:
+                            if player.item_types[i] == types:
+                                list_types.append(i) 
+                        eq = cursor
+                        selected = list_types[0]
+                        cursor = 0
+                        board.equ(player, cursor, types)
+                elif player.state == 8:
+                    if eq == 0:
+                        if player.eq2 != selected:
+                            player.eq1 = selected
+                    elif eq == 1:
+                        if player.eq1 != selected:
+                            player.eq2 = selected
+                    elif eq == 2:
+                        player.eq3 = selected
             elif Key == keyboard.Key.ctrl_l:
-                player.state = 0
-                os.system('cls')
-                board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                if player.state == 7 or player.state == 6:
+                    player.state = 4
+                    os.system('cls')
+                    board.menu(cursor)
+                elif player.state == 4:
+                    player.state = 0
+                    os.system('cls')
+                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                elif player.state == 8:
+                    player.state = 6
+                    os.system('cls')
+                    cursor = 0
+                    board.menueq(player, cursor)
                 
     else:
         fgt.fightupdate(player, frop, cords, Key)
           
  
 with keyboard.Listener(on_release=on_key_release) as listener:
-     listener.join()
-
-"""
-
-
-
-
-   
-  
-  
-  
-   
-  
-         
-      
-      
-    
-  
-
-
-
-    
-  
-
-  
-z
-  
-      
-    
- 
-"""
+    listener.join()
