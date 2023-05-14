@@ -29,6 +29,17 @@ class player:
     7 - inventory look through
     8 - equip weapon
     9 - use weapon
+
+    1 - phoenix
+    2 - water nymph
+    3 - harpy
+    4 - gryph
+    5 - dryad
+    6 - golem
+    7 - ice golem
+    8 - pegasus
+    9 - dragon
+    10 - unicorn
     """
 
     pcords = [0, 0]

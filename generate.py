@@ -85,5 +85,15 @@ def generation(map, x, y):
             if map[trsytry][trsxtry] == 0:
                 map[trsytry][trsxtry] = 8
                 flag = False
+    
+    heal = rnd.randint(1, 3)
 
+    for i in range(0, heal):
+        flag = True
+        while flag:
+            trsxtry = rnd.randint(0, x - 1)
+            trsytry = rnd.randint(0, y - 1)
+            if map[trsytry][trsxtry] == 0:
+                map[trsytry][trsxtry] = 9
+                flag = False
     return map

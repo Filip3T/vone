@@ -1,5 +1,4 @@
 from pynput import keyboard
-#from pynput.keyboard import Key
 import os
 import board
 import generate as gen
@@ -14,7 +13,6 @@ x = rnd.randint(15, 18)
 y = rnd.randint(18, 24)
 cords = [[1 for i in range(x)] for j in range(y)]
 cords = gen.generation(cords, x, y)
-#print(cords)
 
 player = ply.player()
 player.spawn(x, y, cords)
@@ -31,7 +29,6 @@ en3 = enemy.enemy("en3", 0)
 cords = en3.mapadd(cords, x, y)
  
 def next():
-    #global rooms
     global x, y, cords, moves, left, en1, en2, en3
 
     left = 3
@@ -42,7 +39,6 @@ def next():
     cords = [[1 for i in range(x)] for j in range(y)]
     cords = gen.generation(cords, x, y)
 
-    #pcords = [y - 1, 0]
     player.spawn(x, y, cords)
 
     en1 = enemy.enemy("en1", 0)
@@ -58,16 +54,7 @@ help = cords[0].index(4)
 punkt1 = [0, help]
 punkt2 = player.pcords
 notspawned = True
- 
-#board.plansza(x, y, cords, moves)
 
-#check = path.co  mplexpathfinding(tuple(punkt1), tuple(punkt2), cords)
-#print(check)
-#for i in check:
-#    cords[i[0]][i[1]] = 3
-
-
-#print(co rds)
 
 board.plansza(x, y, cords, moves, en1, en2, en3, player)
     
@@ -130,6 +117,11 @@ def  on_key_release(Key):
                     if cords[player.pcords[0]][player.pcords[1] + 1] == 8:
                         player.itemfound()
                         cords[player.pcords[0]][player.pcords[1] + 1] = 0
+                    elif cords[player.pcords[0]][player.pcords[1] + 1] == 9:
+                        player.hp += 25
+                        if player.hp > player.maxhp:
+                            player.hp = player.maxhp
+                        cords[player.pcords[0]][player.pcords[1] + 1] = 0
                     left = cords[player.pcords[0]][player.pcords[1] + 1]
                     player.pcords[1] += 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
@@ -157,6 +149,11 @@ def  on_key_release(Key):
                     if cords[player.pcords[0]][player.pcords[1] - 1 ] == 8:
                         player.itemfound()
                         cords[player.pcords[0]][player.pcords[1] - 1 ] = 0
+                    elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 9:
+                        player.hp += 25
+                        cords[player.pcords[0]][player.pcords[1] - 1 ] = 0
+                        if player.hp > player.maxhp:
+                            player.hp = player.maxhp
                     left = cords[ player.pcords[0]][player.pcords[1] - 1]
                     player.pcords[1] -= 1
                     cords[player.pcords[0]][player.pcords[1]] = 2
@@ -185,6 +182,11 @@ def  on_key_release(Key):
                         if cords[player.pcords[0] - 1][player.pcords[1]] == 8:
                             player.itemfound()
                             cords[player.pcords[0] - 1][player.pcords[1]] = 0
+                        elif cords[player.pcords[0] - 1][player.pcords[1]] == 9:
+                            player.hp += 25
+                            cords[player.pcords[0] - 1][player.pcords[1]] = 0
+                            if player.hp > player.maxhp:
+                                player.hp = player.maxhp
                         left = cords[player.pcords[0] - 1][player.pcords[1]]
                         player.pcords[0] -= 1
                         cords[player.pcords[0]][player.pcords[1]] = 2
@@ -228,6 +230,11 @@ def  on_key_release(Key):
                         if cords[player.pcords[0] + 1][player.pcords[1]] == 8:
                             player.itemfound()
                             cords[player.pcords[0] + 1][player.pcords[1]] = 0
+                        elif cords[player.pcords[0] + 1][player.pcords[1]] == 9:
+                            player.hp += 25
+                            cords[player.pcords[0] + 1][player.pcords[1]] = 0
+                            if player.hp > player.maxhp:
+                                player.hp = player.maxhp
                         left = cords[player.pcords[0] + 1][player.pcords[1]]
                         player.pcords[0] += 1
                         cords[player.pcords[0]][player.pcords[1]] = 2

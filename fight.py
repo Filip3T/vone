@@ -9,7 +9,32 @@ class enemies:
 
     name = {
         0: "none",
-        1: "phoenix"
+        1: "phoenix",
+        2: "water nymph",
+        3: "harpy",
+        4: "gryph",
+        5: "dryad",
+        6: "golem",
+        7: "ice golem",
+        8: "pegasus",
+        9: "dragon",
+        10: "unicorn",
+        11: "shadow"
+    }
+
+    exp_worth ={
+        0 : 0,
+        1 : 12,
+        2 : 8,
+        3 : 5,
+        4 : 14,
+        5 : 16,
+        6 : 18,
+        7 : 16,
+        8 : 14,
+        9 : 24,
+        10: 14,
+        11: 20
     }
 
 
@@ -23,14 +48,59 @@ class enemies:
         0 : "fire ball",
         1 : "blazing hell",
         2 : "fire from the sky",
-        3 : "bite"
+        3 : "peek",
+        4 : "bite",
+        5 : "water wave",
+        6 : "thunder",
+        7 : "shadow ambush",
+        8 : "light ray",
+        9 : "wind blow",
+        10: "ice cold rain",
+        11: "thunderstorm",
+        12: "blinding light",
+        13: "absolute darkness",
+        14: "slash",
+        15: "heavy blow",
+        16: "crush",
+        17: "ice spikes",
+        18: "rainbow",
+    }
+
+    enemy_attacks_p = {
+        0 : [],
+        1 : [0, 1, 2, 3, 4],
+        2 : [5, 9, 10, 17],
+        3 : [3, 9],
+        4 : [3, 9, 14, 15],
+        5 : [14, 10, 9, 6, 11],
+        6 : [16, 15, 14, 4],
+        7 : [16, 15, 14, 17, 10],
+        8 : [8, 9, 4],
+        9 : [1, 2, 9, 16],
+        10: [12, 13, 18],
+        11: [16, 7, 13]
     }
 
     enemy_attacks_damage = {
         0 : 3,
-        1 : 5,
+        1 : 7,
         2 : 4,
-        3 : 2
+        3 : 2,
+        4 : 2,
+        5 : 4,
+        6 : 5,
+        7 : 5,
+        8 : 5,
+        9 : 4,
+        10: 6,
+        11: 7,
+        12: 7,
+        13: 8,
+        14: 4,
+        15: 5,
+        16: 7,
+        17: 6,
+        18: 8
     }
 
     enemy_attacks_elements = {
@@ -38,61 +108,98 @@ class enemies:
         1 : 2,
         2 : 2,
         3 : 0,
+        4 : 0,
+        5 : 3,
+        6 : 5,
+        7 : 6,
+        8 : 7,
+        9 : 4,
+        10: 3,
+        11: 5,
+        12: 7,
+        13: 6,
+        14: 0,
+        15: 0,
+        16: 0,
+        17: 3,
+        18: 7
     }
+
+    enemy_hp = {
+        0 : 0,
+        1 : 150,
+        2 : 120,
+        3 : 80,
+        4 : 160,
+        5 : 200,
+        6 : 220,
+        7 : 220,
+        8 : 180,
+        9 : 300,
+        10: 170,
+        11: 250
+    }
+
+    enemy_rec = {
+        0 : [0, 0, 0, 0, 0, 0, 0, 0],
+        1 : [1, 0, 2, 0, 0, 2, 1, 0],
+        2 : [1, 1, 0, 2, 2, 0, 0, 1],
+        3 : [1, 0, 0, 2, 0, 1, 1, 1],
+        4 : [1, 0, 1, 2, 0, 2, 1, 1],
+        5 : [1, 1, 0, 2, 1, 2, 0, 2],
+        6 : [2, 2, 1, 0, 2, 2, 0, 0],
+        7 : [1, 2, 0, 2, 1, 2, 0, 1],
+        8 : [1, 1, 0, 2, 1, 0, 0, 2],
+        9 : [2, 1, 2, 1, 2, 1, 0, 0],
+        10: [0, 1, 0, 2, 1, 1, 0, 2],
+        11: [2, 2, 1, 2, 1, 1, 2, 0]
+    }
+
 
     exp_pull = 0
 
     enemy1 = 0
     hp1 = 0
     maxhp1 = 0
-    rec1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    attacks1 = []
+    rec1 = [0, 0, 0, 0, 0, 0, 0, 0]
 
     enemy2 = 0
     hp2 = 0
     maxhp2 = 0
-    rec2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    attacks2 = []
+    rec2 = [0, 0, 0, 0, 0, 0, 0, 0]
 
     enemy3 = 0
     hp3 = 0
     maxhp3 = 0
-    rec3 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    attacks3 = []
+    rec3 = [0, 0, 0, 0, 0, 0, 0, 0]
 
     def __init__(self):
         x = rnd.randint(1, 3)
         for i in range(0, x):
             if i == 0:
-                j = rnd.randint(1, 1)
+                j = rnd.randint(1, 10)
                 self.enemy1 = j
-                if j == 1:
-                    self.hp1 = 120
-                    self.maxhp1 = 120
-                    self.rec1 = [1, 0, 2, 0, 0, 2, 1, 1, 0]
-                    self.attacks1 = [0, 1, 2]
-                    self.exp_pull += 10
-
+                self.rec1 = self.enemy_rec[j]
+                self.hp1 = self.enemy_hp[j]
+                self.maxhp1 = self.enemy_hp[j]
+                self.exp_pull += self.exp_worth[j]
 
             if i == 1:
-                j = rnd.randint(1, 1)
+                j = rnd.randint(1, 10)
                 self.enemy2 = j
-                if j == 1:
-                    self.hp2 = 120
-                    self.maxhp2 = 120
-                    self.rec2 = [1, 0, 2, 0, 0, 2, 1, 1, 0]
-                    self.attacks2 = [0, 1, 2]
-                    self.exp_pull += 10
+                self.rec2 = self.enemy_rec[j]
+                self.hp2 = self.enemy_hp[j]
+                self.maxhp2 = self.enemy_hp[j]
+                self.exp_pull += self.exp_worth[j]
 
             if i == 2:
-                j = rnd.randint(1, 1)
+                j = rnd.randint(1, 10)
                 self.enemy3 = j
-                if j == 1:
-                    self.hp3 = 120
-                    self.maxhp3 = 120
-                    self.rec3 = [1, 0, 2, 0, 0, 2, 1, 1, 1]
-                    self.attacks3 = [0, 1, 2]
-                    self.exp_pull += 10
+                self.rec3 = self.enemy_rec[j]
+                self.hp3 = self.enemy_hp[j]
+                self.maxhp3 = self.enemy_hp[j]
+                self.exp_pull += self.exp_worth[j]
+
 
 enemy = 0
 cursor = 0
@@ -112,19 +219,19 @@ def enemy_turn(player):
         do = False
         if i == 1:
             if enemy.enemy1 != 0:
-                attack = rnd.choice(enemy.attacks1)
+                attack = rnd.choice(enemy.enemy_attacks_p[enemy.enemy1])
                 do = True
                 print(enemy.name[enemy.enemy1], "uses", enemy.enemy_attacks[attack], "dealing",
                       (enemy.enemy_attacks_damage[attack] * player.def_mlt), "DMG.", end=" ")
         elif i == 2:
             if enemy.enemy2 != 0:
-                attack = rnd.choice(enemy.attacks2)
+                attack = rnd.choice(enemy.enemy_attacks_p[enemy.enemy2])
                 do = True
                 print(enemy.name[enemy.enemy2], "uses", enemy.enemy_attacks[attack], "dealing",
                       (enemy.enemy_attacks_damage[attack] * player.def_mlt), "DMG.", end=" ")
         elif i == 3:
             if enemy.enemy3 != 0:
-                attack = rnd.choice(enemy.attacks3)
+                attack = rnd.choice(enemy.enemy_attacks_p[enemy.enemy3])
                 do = True
                 print(enemy.name[enemy.enemy3], "uses", enemy.enemy_attacks[attack], "dealing",
                       (enemy.enemy_attacks_damage[attack] * player.def_mlt), "DMG.", end=" ")

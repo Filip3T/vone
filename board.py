@@ -41,6 +41,8 @@ def plansza(x, y, cords, moves, en1, en2, en3, player):
                 #print("│", colored(" 11 ", "red"), end="", sep="")
             elif a == 8:
                 print("│", colored(" △△ ", "yellow"), end="", sep="")
+            elif a == 9:
+                print("│", colored(" ○○ ", "green"), end="", sep="")
             
         print("│")
         i += 1
@@ -57,19 +59,19 @@ def plansza(x, y, cords, moves, en1, en2, en3, player):
 
 def battleUI(player, enemy, cursor):
     if player.state == 1:
-        if enemy.enemy1 == 1:
+        if enemy.enemy1 != 0:
             if cursor == 0:
                 print(colored("1: ", "red"), colored(enemy.name[enemy.enemy1], "red"), colored(": ", "red"),
                        colored(enemy.hp1, "red"), colored("/", "red"), colored(enemy.maxhp1, "red"))
             else:
                 print("1: ", enemy.name[enemy.enemy1], ": ", enemy.hp1, "/", enemy.maxhp1)
-        if enemy.enemy2 == 1:
+        if enemy.enemy2 != 0:
             if cursor == 1:
                 print(colored("2: ", "red"), colored(enemy.name[enemy.enemy2], "red"), colored(": ", "red"),
                        colored(enemy.hp2, "red"), colored("/", "red"), colored(enemy.maxhp2, "red"))
             else:
                 print("2: ", enemy.name[enemy.enemy2], ": ", enemy.hp2, "/", enemy.maxhp2)
-        if enemy.enemy3 == 1:
+        if enemy.enemy3 != 0:
             if cursor == 2:
                 print(colored("3: ", "red"), colored(enemy.name[enemy.enemy3], "red"), colored(": ", "red"),
                        colored(enemy.hp3, "red"), colored("/", "red"), colored(enemy.maxhp3, "red"))
@@ -123,19 +125,19 @@ def battleUI(player, enemy, cursor):
                 enemy.weaknesses[enemy.rec3[4]],"│", enemy.weaknesses[enemy.rec3[5]],"│",
                 enemy.weaknesses[enemy.rec3[6]],"│", enemy.weaknesses[enemy.rec3[7]])
     if player.state == 3 or player.state == 9:
-        if enemy.enemy1 == 1:
+        if enemy.enemy1 != 0:
             if cursor == 0:
                 print(colored("1: ", "red"), colored(enemy.name[enemy.enemy1], "red"), colored(": ", "red"),
                 colored(enemy.hp1, "red"), colored("/", "red"), colored(enemy.maxhp1, "red"))
             else:
                 print("1: ", enemy.name[enemy.enemy1], ": ", enemy.hp1, "/", enemy.maxhp1)
-        if enemy.enemy2 == 1:
+        if enemy.enemy2 != 0:
             if cursor == 1:
                 print(colored("2: ", "red"), colored(enemy.name[enemy.enemy2], "red"), colored(": ", "red"),
                 colored(enemy.hp2, "red"), colored("/", "red"), colored(enemy.maxhp2, "red"))
             else:
                 print("2: ", enemy.name[enemy.enemy2], ": ", enemy.hp2, "/", enemy.maxhp2)
-        if enemy.enemy3 == 1:
+        if enemy.enemy3 != 0:
             if cursor == 2:
                 print(colored("3: ", "red"), colored(enemy.name[enemy.enemy3], "red"), colored(": ", "red"),
                 colored(enemy.hp3, "red"), colored("/", "red"), colored(enemy.maxhp3, "red"))
