@@ -222,34 +222,35 @@ def enemy_turn(player):
                 attack = rnd.choice(enemy.enemy_attacks_p[enemy.enemy1])
                 do = True
                 print(enemy.name[enemy.enemy1], "uses", enemy.enemy_attacks[attack], "dealing",
-                      (enemy.enemy_attacks_damage[attack] * player.def_mlt), "DMG.", end=" ")
+                    round((enemy.enemy_attacks_damage[attack] * player.def_mlt * (1 + (player.rooms * 0.2))), 2), "DMG.", end=" ")
         elif i == 2:
             if enemy.enemy2 != 0:
                 attack = rnd.choice(enemy.enemy_attacks_p[enemy.enemy2])
                 do = True
                 print(enemy.name[enemy.enemy2], "uses", enemy.enemy_attacks[attack], "dealing",
-                      (enemy.enemy_attacks_damage[attack] * player.def_mlt), "DMG.", end=" ")
+                    round((enemy.enemy_attacks_damage[attack] * player.def_mlt * (1 + (player.rooms * 0.2))), 2), "DMG.", end=" ")
         elif i == 3:
             if enemy.enemy3 != 0:
                 attack = rnd.choice(enemy.enemy_attacks_p[enemy.enemy3])
                 do = True
                 print(enemy.name[enemy.enemy3], "uses", enemy.enemy_attacks[attack], "dealing",
-                      (enemy.enemy_attacks_damage[attack] * player.def_mlt), "DMG.", end=" ")
+                    round((enemy.enemy_attacks_damage[attack] * player.def_mlt * (1 + (player.rooms * 0.2))), 2), "DMG.", end=" ")
         if do:
             if player.item_damage[player.eq4][enemy.enemy_attacks_elements[attack]] == 0:
-                player.hp -= enemy.enemy_attacks_damage[attack] * 1.5
+                player.hp -= enemy.enemy_attacks_damage[attack] * 1.5 * (1 + (player.rooms * 0.2)) * player.def_mlt
                 print("This attack was super effective boosting damage to ", 
-                    (enemy.enemy_attacks_damage[attack] * player.def_mlt) * 1.5, "DMG.")
+                    (enemy.enemy_attacks_damage[attack] * player.def_mlt * (1 + (player.rooms * 0.2))) * 1.5, "DMG.")
             if player.item_damage[player.eq4][enemy.enemy_attacks_elements[attack]] == 1:
-                player.hp -= enemy.enemy_attacks_damage[attack]
+                player.hp -= enemy.enemy_attacks_damage[attack] * (1 + (player.rooms * 0.2)) * player.def_mlt
             if player.item_damage[player.eq4][enemy.enemy_attacks_elements[attack]] == 2:
-                player.hp -= enemy.enemy_attacks_damage[attack] * 0.5
+                player.hp -= enemy.enemy_attacks_damage[attack] * 0.5 * (1 + (player.rooms * 0.2)) * player.def_mlt
                 print("This attack wass't effective at all lowering the damage to",
-                      (enemy.enemy_attacks_damage[attack] * player.def_mlt) * 0.5, "DMG")
+                      (enemy.enemy_attacks_damage[attack] * player.def_mlt * (1 + (player.rooms * 0.2))) * 0.5, "DMG")
             if player.hp <= 0:
                 while True:
                     print("śmierć")
                     os.system('cls')
+            round(player.hp, 2)
         time.sleep(1)
     time.sleep(5)
     
@@ -288,7 +289,7 @@ def fightupdate(player, prop, cords, Key):
             if cursor == 1 and enemy.enemy3 == 0:
                 cursor = 3
             else:
-                if cursor != 5:
+                if cursor != 4:
                     cursor += 1
         elif player.state == 3 or player.state == 9:
             if cursor == 0 and enemy.enemy2 == 0:
@@ -328,6 +329,7 @@ def fightupdate(player, prop, cords, Key):
                 cursor = 0
                 board.invfgt(player, cursor)
         elif player.state == 3:
+            used = []
             if cursor == 0:
                 if enemy.rec1[0] == 0:
                     enemy.hp1 -= 40
@@ -340,10 +342,10 @@ def fightupdate(player, prop, cords, Key):
                     cursor = 3
                     if enemy.enemy3 == 0 and enemy.enemy2 == 0:
                         #win
+                        used = []
                         player.state = 0
                         prop.death(cords)
-                        print("You won gaining", enemy.exp_pull, "EXP. You feel your wounds magically healing themselves. You gained",
-                              player.maxhp * 0.3, "HP back.")
+                        print("You won gaining", enemy.exp_pull, "EXP.")
                         player.exp += enemy.exp_pull
                         player.hp += player.maxhp * 0.3
                         if player.hp > player.maxhp:
@@ -370,12 +372,8 @@ def fightupdate(player, prop, cords, Key):
                         #win
                         player.state = 0
                         prop.death(cords)
-                        print("You won gaining", enemy.exp_pull, "EXP. You feel your wounds magically healing themselves. You gained",
-                              player.maxhp * 0.3, "HP back.")
+                        print("You won gaining", enemy.exp_pull, "EXP.")
                         player.exp += enemy.exp_pull
-                        player.hp += player.maxhp * 0.3
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
                         if player.exp >= player.lvlup:
                             player.level_up()
                     else:
@@ -396,14 +394,11 @@ def fightupdate(player, prop, cords, Key):
                     cursor = 3
                     if enemy.enemy1 == 0 and enemy.enemy2 == 0:
                         #win
+                        used = []
                         player.state = 0
                         prop.death(cords)
-                        print("You won gaining", enemy.exp_pull, "EXP. You feel your wounds magically healing themselves. You gained",
-                              player.maxhp * 0.3, "HP back.")
+                        print("You won gaining", enemy.exp_pull, "EXP.")
                         player.exp += enemy.exp_pull
-                        player.hp += player.maxhp * 0.3
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
                         if player.exp >= player.lvlup:
                             player.level_up()
                     else:
@@ -462,14 +457,11 @@ def fightupdate(player, prop, cords, Key):
                     cursor = 3
                     if enemy.enemy3 == 0 and enemy.enemy2 == 0:
                         #win
+                        used = []
                         player.state = 0
                         prop.death(cords)
-                        print("You won gaining", enemy.exp_pull, "EXP. You feel your wounds magically healing themselves. You gained",
-                              player.maxhp * 0.3, "HP back.")
+                        print("You won gaining", enemy.exp_pull, "EXP.")
                         player.exp += enemy.exp_pull
-                        player.hp += player.maxhp * 0.3
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
                         if player.exp >= player.lvlup:
                             player.level_up()
                         return None
@@ -504,14 +496,11 @@ def fightupdate(player, prop, cords, Key):
                     cursor = 3
                     if enemy.enemy1 == 0 and enemy.enemy3 == 0:
                         #win
+                        used = []
                         player.state = 0
                         prop.death(cords)
-                        print("You won gaining", enemy.exp_pull, "EXP. You feel your wounds magically healing themselves. You gained",
-                              player.maxhp * 0.3, "HP back.")
+                        print("You won gaining", enemy.exp_pull, "EXP.")
                         player.exp += enemy.exp_pull
-                        player.hp += player.maxhp * 0.3
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
                         if player.exp >= player.lvlup:
                             player.level_up()
                         return None
@@ -548,14 +537,11 @@ def fightupdate(player, prop, cords, Key):
                     cursor = 3
                     if enemy.enemy1 == 0 and enemy.enemy2 == 0:
                         #win
+                        used = []
                         player.state = 0
                         prop.death(cords)
-                        print("You won gaining", enemy.exp_pull, "EXP. You feel your wounds magically healing themselves. You gained",
-                              player.maxhp * 0.3, "HP back.")
+                        print("You won gaining", enemy.exp_pull, "EXP.")
                         player.exp += enemy.exp_pull
-                        player.hp += player.maxhp * 0.3
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
                         if player.exp >= player.lvlup:
                             player.level_up()
                         return None

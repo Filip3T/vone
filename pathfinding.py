@@ -8,7 +8,7 @@ def neighboring(a, cords, complex):
         y =a[1] + j
         if 0 <= x < len(cords) and 0 <= y < len(cords[0]):
             if complex:
-                if cords[x][y] != 1 and cords[x][y] != 5:
+                if cords[x][y] not in [1, 5, 5, 7, 8, 9]:
                     lista.append((x, y))
             else:
                 lista.append((x, y))

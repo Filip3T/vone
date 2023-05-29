@@ -78,17 +78,13 @@ def battleUI(player, enemy, cursor):
             else:
                 print("3: ", enemy.name[enemy.enemy3], ": ", enemy.hp3, "/", enemy.maxhp3)
         if cursor == 3:
-            print(colored("atak", "red"))
+            print(colored("attack", "red"))
         else:
-            print("atak")
+            print("attack")
         if cursor == 4:
-            print(colored("bron magiczna", "red"))
+            print(colored("magical weapon", "red"))
         else:
-            print("bron magiczna")
-        if cursor == 5:
-            print(colored("obrona", "red"))
-        else:
-            print("obrona")
+            print("magical weapon")
         print(colored("HP: ", "green"), colored(player.hp, "green"), colored(" / ", "green"), colored(player.maxhp, "green"))
     if player.state == 2:
         if cursor == 0:
@@ -159,37 +155,37 @@ def menueq(player, cursor):
     if cursor == 0:
         print(colored("sword 1:", "red"), end=" ")
         if player.eq1 != -1:
-            print(player.items[player.eq1])
+            print(player.items[player.eq1], player.item_damage[player.eq1], "DMG")
         else:
             print("")
     else:
         print("sword 1:", end=" ")
         if player.eq1 != -1:
-            print(player.items[player.eq1])
+            print(player.items[player.eq1], player.item_damage[player.eq1], "DMG")
         else:
             print("")
     if cursor == 1:
         print(colored("sword 2:", "red"), end=" ")
         if player.eq2 != -1:
-            print(player.items[player.eq2])
+            print(player.items[player.eq2], player.item_damage[player.eq2], "DMG")
         else:
             print("")
     else:
         print("sword 2:", end=" ")
         if player.eq2 != -1:
-            print(player.items[player.eq2])
+            print(player.items[player.eq2], player.item_damage[player.eq2], "DMG")
         else:
             print("")
     if cursor == 2:
         print(colored("bow:", "red"), end=" ")
         if player.eq3 != -1:
-            print(player.items[player.eq3])
+            print(player.items[player.eq3], player.item_damage[player.eq3], "DMG")
         else:
             print("")
     else:
         print("bow:", end=" ")
         if player.eq3 != -1:
-            print(player.items[player.eq3])
+            print(player.items[player.eq3], player.item_damage[player.eq3], "DMG")
         else:
             print("")
 
@@ -234,19 +230,40 @@ def equ(player, cursor, type):
 def inv(player):
     for i in player.inventory:
         if player.item_elements[i] == 0 or player.item_elements[i] == 1:
-            print(colored(player.items[i], "grey"))
-        if player.item_elements[i] == 2:
-            print(colored(player.items[i], "red"))
-        if player.item_elements[i] == 3:
-            print(colored(player.items[i], "light_blue"))
-        if player.item_elements[i] == 4:
-            print(colored(player.items[i], "green"))
-        if player.item_elements[i] == 5:
-            print(colored(player.items[i], "yellow"))
-        if player.item_elements[i] == 6:
-            print(colored(player.items[i], "magenta"))
-        if player.item_elements[i] == 7:
-            print(colored(player.items[i], "white"))
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "grey"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "grey"))
+        elif player.item_elements[i] == 2:
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "red"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "red"))
+        elif player.item_elements[i] == 3:
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "light_blue"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "light_blue"))
+        elif player.item_elements[i] == 4:
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "green"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "green"))
+        elif player.item_elements[i] == 5:
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "yellow"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "yellow"))
+        elif player.item_elements[i] == 6:
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "magenta"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "magenta"))
+        elif player.item_elements[i] == 7:
+            if player.item_types[i] != 2:
+                print(colored(player.items[i], "white"), player.item_damage[i], "DMG")
+            else:
+                print(colored(player.items[i], "white"))
          
 
 def invfgt(player, cursor):

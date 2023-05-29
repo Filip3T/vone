@@ -58,16 +58,21 @@ class player:
     }
 
     items = {
-        0: "fire sword",
-        1: "basic bow",
-        2: "water sword",
-        3: "wind sword",
-        4: "thunder sword",
-        5: "sword of darkness",
-        6: "sword of light",
-        7: "basic left sword",
-        8: "basic right sword",
-        9: "basic armor"
+        0 : "fire sword",
+        1 : "basic bow",
+        2 : "water sword",
+        3 : "wind sword",
+        4 : "thunder sword",
+        5 : "sword of darkness",
+        6 : "sword of light",
+        7 : "basic left sword",
+        8 : "basic right sword",
+        9 : "armor",
+        10: "light spear",
+        11: "spear of darkness",
+        12: "fire canon",
+        13: "water gun",
+        14: "thunder hammer"
     }
 
     item_elements = {
@@ -81,6 +86,11 @@ class player:
         7 : 0,
         8 : 0,
         9 : 0,
+        10: 7,
+        11: 6,
+        12: 2,
+        13: 3,
+        14: 5
     }
 
     item_types = {
@@ -94,6 +104,11 @@ class player:
         7 : 0,
         8 : 0,
         9 : 2,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0
     }
 
     item_damage = {
@@ -106,7 +121,12 @@ class player:
         6 : 60,
         7 : 40,
         8 : 40,
-        9 : [1, 1, 0, 1, 1, 1, 1, 1]
+        9 : [1, 1, 1, 1, 1, 1, 1, 1],
+        10: 30,
+        11: 35,
+        12: 40,
+        13: 20,
+        14: 50
     }
 
     def spawn(self, x, y, cords):
@@ -124,12 +144,23 @@ class player:
         #print(self.pcords)
     def itemfound(self):
         added = True
+        j = 0
         while added:
-            item = rnd.randint(0, 6)
+            item = rnd.randint(0, 14)
             if item not in list(self.inventory):
                 self.inventory.append(item)
                 added = False
-        print(self.items[item], "found!")
+                j = 0
+            else:
+                j += 1
+                if j == 3:
+                    added = -1
+                    break
+        
+        if added != -1:
+            print(self.items[item], "found!")
+        else: 
+            print("sadly the chest was empty.")
         time.sleep(2)
 
     def level_up(self):
