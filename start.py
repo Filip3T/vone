@@ -56,6 +56,47 @@ punkt2 = player.pcords
 notspawned = True
 
 
+def move(turn, fturn, d, axis):
+    global moves, frop, left, x, y
+    cords[player.pcords[0]][player.pcords[1]] = left
+    if turn >= axis or fturn == 1:
+        print("nope")
+    elif fturn == 5:
+        frop = en1
+        fgt.fight(player)
+    elif fturn == 6:
+        frop = en2
+        fgt.fight(player)
+    elif fturn == 7:
+        frop = en3
+        fgt.fight(player)
+    elif fturn == 4:
+        next()
+        os.system('cls')
+        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+    else:
+        if fturn == 8:
+            player.itemfound()
+            fturn = 0
+        elif fturn == 9:
+            player.hp += 25
+            if player.hp > player.maxhp:
+                player.hp = player.maxhp
+        fturn = 0
+        left = fturn
+        if d == 0:
+            player.pcords[1] += 1
+        elif d == 1:
+            player.pcords[1] -= 1
+        elif d == 2:
+            player.pcords[0] -= 1
+        elif d == 3:
+            player.pcords[0] += 1
+        cords[player.pcords[0]][player.pcords[1]] = 2
+        os.system('cls')
+        moves -= 1
+        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+
 board.plansza(x, y, cords, moves, en1, en2, en3, player)
     
 frop = 0
@@ -93,106 +134,14 @@ def  on_key_release(Key):
             moves += 8
             os.system('cls')
             board.plansza(x, y, cords, moves, en1, en2, en3, player)
- 
-
         else:
             if Key == Key.right:
-                cords[player.pcords[0]][player.pcords[1]] = left
-                if player.pcords[1] + 1 >= x or cords[player.pcords[0]][player.pcords[1] + 1 ] == 1:
-                    print("nope")
-                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 5:
-                    frop = en1
-                    fgt.fight(player)
-                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 6:
-                    frop = en2
-                    fgt.fight(player)
-                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 7:
-                    frop = en3
-                    fgt.fight(player)
-                elif cords[player.pcords[0]][player.pcords[1] + 1 ] == 4:
-                    next()
-                    os.system('cls')
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
-                else:
-                    if cords[player.pcords[0]][player.pcords[1] + 1] == 8:
-                        player.itemfound()
-                        cords[player.pcords[0]][player.pcords[1] + 1] = 0
-                    elif cords[player.pcords[0]][player.pcords[1] + 1] == 9:
-                        player.hp += 25
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
-                        cords[player.pcords[0]][player.pcords[1] + 1] = 0
-                    left = cords[player.pcords[0]][player.pcords[1] + 1]
-                    player.pcords[1] += 1
-                    cords[player.pcords[0]][player.pcords[1]] = 2
-                    os.system('cls')
-                    moves -= 1
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                move(player.pcords[1] + 1, cords[player.pcords[0]][player.pcords[1] + 1], 0, x)
             elif Key == Key.left:
-                cords[player.pcords[0]][player.pcords[1]] = left
-                if player.pcords[1] - 1 < 0 or cords[player.pcords[0]][player.pcords[1] - 1 ] == 1:
-                    print("nope")
-                elif cords [player.pcords[0]][player.pcords[1] - 1 ] == 5:
-                    frop = en1
-                    fgt.fight(player)
-                elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 6:
-                    frop = en2
-                    fgt.fight(player)
-                elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 7:
-                    frop = en3
-                    fgt.fight(player)
-                elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 4:
-                    next( )
-                    os.system('cls')
-                    board.plansza(x, y, cords, moves, en1, en2 ,en3, player)
-                else:
-                    if cords[player.pcords[0]][player.pcords[1] - 1 ] == 8:
-                        player.itemfound()
-                        cords[player.pcords[0]][player.pcords[1] - 1 ] = 0
-                    elif cords[player.pcords[0]][player.pcords[1] - 1 ] == 9:
-                        player.hp += 25
-                        cords[player.pcords[0]][player.pcords[1] - 1 ] = 0
-                        if player.hp > player.maxhp:
-                            player.hp = player.maxhp
-                    left = cords[ player.pcords[0]][player.pcords[1] - 1]
-                    player.pcords[1] -= 1
-                    cords[player.pcords[0]][player.pcords[1]] = 2
-                    os.system('cls')
-                    moves -= 1
-                    board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                move(player.pcords[1] - 1, cords[player.pcords[0]][player.pcords[1] - 1], 1, x)
             elif Key == Key.up:
                 if player.state == 0:
-                    cords[player.pcords[0]][player.pcords[1]] = left
-                    if player.pcords[0] - 1 < 0 or cords[player.pcords[0] - 1][player.pcords[1]] == 1:
-                        print("nope")
-                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 5:
-                        frop = en1
-                        fgt.fight(player)
-                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 6:
-                        frop = en2
-                        fgt.fight(player)
-                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 7:
-                        frop = en3
-                        fgt.fight(player)
-                    elif cords[player.pcords[0] - 1][player.pcords[1]] == 4:
-                        next()
-                        os.system('cls')
-                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
-                    else:
-                        if cords[player.pcords[0] - 1][player.pcords[1]] == 8:
-                            player.itemfound()
-                            cords[player.pcords[0] - 1][player.pcords[1]] = 0
-                        elif cords[player.pcords[0] - 1][player.pcords[1]] == 9:
-                            player.hp += 25
-                            cords[player.pcords[0] - 1][player.pcords[1]] = 0
-                            if player.hp > player.maxhp:
-                                player.hp = player.maxhp
-                        left = cords[player.pcords[0] - 1][player.pcords[1]]
-                        player.pcords[0] -= 1
-                        cords[player.pcords[0]][player.pcords[1]] = 2
-                        os.system('cls')
-                        moves -= 1
-                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                    move(player.pcords[0] - 1, cords[player.pcords[0] - 1][player.pcords[1]], 2, y)
                 elif player.state == 4:
                     cursor = 0 
                     os.system('cls')
@@ -210,37 +159,7 @@ def  on_key_release(Key):
                         board.equ(player, cursor, types)
             elif Key == Key.down: 
                 if player.state == 0:
-                    cords[player.pcords[0]][player.pcords[1]] = left
-                    if  player.pcords[0] + 1 >= y or cords[player.pcords[0] + 1][player.pcords[1]] == 1:
-                        print("nope")
-                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 5:
-                        frop = en1
-                        fgt.fight(player)
-                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 6:
-                        frop = en2
-                        fgt.fight(player)
-                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 7:
-                        frop = en3
-                        fgt.fight(player)
-                    elif cords[player.pcords[0] + 1][player.pcords[1]] == 4:
-                        next()
-                        os.system('cls')
-                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
-                    else:
-                        if cords[player.pcords[0] + 1][player.pcords[1]] == 8:
-                            player.itemfound()
-                            cords[player.pcords[0] + 1][player.pcords[1]] = 0
-                        elif cords[player.pcords[0] + 1][player.pcords[1]] == 9:
-                            player.hp += 25
-                            cords[player.pcords[0] + 1][player.pcords[1]] = 0
-                            if player.hp > player.maxhp:
-                                player.hp = player.maxhp
-                        left = cords[player.pcords[0] + 1][player.pcords[1]]
-                        player.pcords[0] += 1
-                        cords[player.pcords[0]][player.pcords[1]] = 2
-                        os.system('cls')
-                        moves -= 1
-                        board.plansza(x, y, cords, moves, en1, en2, en3, player)
+                    move(player.pcords[0] + 1, cords[player.pcords[0] + 1][player.pcords[1]], 3, y)
                 elif player.state == 4:
                     cursor = 1
                     os.system('cls')
